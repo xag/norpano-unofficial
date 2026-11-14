@@ -1,0 +1,32 @@
+[
+  {
+    "path": "a-board-is-read-only-as-a-line-wood-panels-knows",
+    "kind": "decision",
+    "digest": "be95d591c40f"
+  },
+  {
+    "path": "a-board-is-read-only-as-a-line-wood-panels-knows/every-table",
+    "kind": "alternative",
+    "digest": "e87b4119778d"
+  },
+  {
+    "path": "a-board-is-read-only-as-a-line-wood-panels-knows/twin-as-okoume",
+    "kind": "alternative",
+    "digest": "6a7d0ac36615"
+  },
+  {
+    "path": "the-range-is-read-from-the-general-catalogue",
+    "kind": "decision",
+    "digest": "81d67a228cd7"
+  },
+  {
+    "path": "the-range-is-read-from-the-general-catalogue/the-category-pages",
+    "kind": "alternative",
+    "digest": "777d6e2a58dd"
+  },
+  {
+    "path": "the-range-is-read-from-the-general-catalogue/the-text-layout",
+    "kind": "alternative",
+    "digest": "bd0ffa015065"
+  }
+]
