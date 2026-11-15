@@ -26,6 +26,7 @@ from pathlib import Path
 
 from quern.provenance import Quantity
 from quern.tree import Node
+from furniture_design.knowledge import with_authority
 from wood_panels import shops
 
 from .catalogue import URL
@@ -94,9 +95,16 @@ def cutting_service() -> Node:
                 links={"per": [f"sources/{SERVICES}/panel-cutting"]})
 
 
+# Who stands behind each source (furniture-design's AUTHORITIES).
+AUTHORITY = {
+    "norpano-catalogue-2026": "maker",
+    "norpano-services-page": "maker",
+}
+
+
 def knowledge() -> list[Node]:
     """The branches to merge beside furniture-design's and wood-panels's: the sources, the materials and the
     cutting service as a tool."""
-    return [Node(id="sources", kind="", children=[catalogue(rows()), services()]),
+    return [Node(id="sources", kind="", children=with_authority([catalogue(rows()), services()], AUTHORITY)),
             Node(id="materials", kind="", children=shops.materials(PREFIX, SHOP, f"sources/{SOURCE}", rows())),
             Node(id="tools", kind="", children=[cutting_service()])]
