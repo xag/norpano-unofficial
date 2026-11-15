@@ -15,6 +15,21 @@
     "digest": "6a7d0ac36615"
   },
   {
+    "path": "the-cutting-service-is-a-beam-saw-cut-with-the-usual-blade",
+    "kind": "decision",
+    "digest": "8d99e3b6f2ab"
+  },
+  {
+    "path": "the-cutting-service-is-a-beam-saw-cut-with-the-usual-blade/the-usual-cut-on-the-service",
+    "kind": "alternative",
+    "digest": "b7288821d78e"
+  },
+  {
+    "path": "the-cutting-service-is-a-beam-saw-cut-with-the-usual-blade/three-and-a-half-on-the-service",
+    "kind": "alternative",
+    "digest": "8a5a709f3652"
+  },
+  {
     "path": "the-range-is-read-from-the-general-catalogue",
     "kind": "decision",
     "digest": "81d67a228cd7"

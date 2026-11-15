@@ -87,3 +87,13 @@ def test_the_data_passes_furniture_designs_rules():
     tree = Quern(vocabulary=PACKAGE.vocabulary, rules=PACKAGE.rules, solvers=PACKAGE.solvers)
     tree.root.children = merge(general(), wood_panels(), knowledge())
     assert [(r.rule, r.node, r.verdict) for r in run_rules(tree) if not r.ok] == []
+
+
+def test_the_cutting_service_is_a_beam_saw_that_prints_no_cut_and_names_the_usual_beam_saw_blade():
+    tools = {n.id: n for b in knowledge() if b.id == "tools" for n in b.children}
+    service = tools["norpano-cutting-service"]
+    assert "kerf" not in (service.params or {}) and "max_kerf" not in (service.params or {})
+    assert service.payload["blade"]["usual"] == "tools/usual-panel-sizing-blade"
+    tree = Quern(vocabulary=PACKAGE.vocabulary, rules=PACKAGE.rules, solvers=PACKAGE.solvers)
+    tree.root.children = merge(general(), wood_panels(), knowledge())
+    assert all(tree.get(p) is not None for p in service.links["per"])

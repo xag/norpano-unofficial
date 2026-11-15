@@ -8,6 +8,10 @@ clause under sources/norpano-catalogue-2026, located by its page, table and row.
 the materials: one per line and thickness, `norpano-<line>-<thickness>`, its payload `shop` saying what is
 sold and which board its values are.
 
+Its cutting service is a tool, tools/norpano-cutting-service: its services page says it cuts on a beam saw
+(scie à plat) and prints no cut, so its payload's blade names saws' usual beam-saw blade, the tool a design
+cut at Norpano is sawn with until the shop gives its cut.
+
     from furniture_design.knowledge import knowledge as general, merge
     from wood_panels import knowledge as wood_panels
     from norpano_unofficial import knowledge as norpano
@@ -31,6 +35,9 @@ SHOP = "Norpano"
 PREFIX = "norpano"
 SOURCE = "norpano-catalogue-2026"
 FETCHED = "2026-11-14"
+SERVICES = "norpano-services-page"
+SERVICES_URL = "https://www.norpano.fr/services.html"
+USUAL_BLADE = "tools/usual-panel-sizing-blade"  # in the saws package
 
 
 @lru_cache(maxsize=1)
@@ -63,7 +70,33 @@ def catalogue(rows: list[dict]) -> Node:
                 children=clauses)
 
 
+def services() -> Node:
+    """The page where Norpano describes its workshop: what it says of its cutting, by locator, in our words."""
+    return Node(id=SERVICES, kind="source", name=f"Norpano, its services ({SERVICES_URL})",
+                payload={"publisher": SHOP, "year": 2026, "url": SERVICES_URL, "fetched": "2026-11-15",
+                         "licence": "copyrighted",
+                         "capture": "private copy, sha256 422aa5e61886625c998fd8bb9cad13d207c380e36a9dd2d0f72889922d20aa2e"},
+                children=[Node(id="panel-cutting", kind="clause",
+                               payload={"locator": "L'atelier de transformation de panneaux, its first item",
+                                        "in_our_words": "the workshop cuts every kind of raw, melamine-faced, "
+                                                        "veneered and compact panel on a numerically controlled "
+                                                        "beam saw (scie à plat); the page gives no cut, no blade "
+                                                        "and no narrowest part"})])
+
+
+def cutting_service() -> Node:
+    """Norpano's cutting service as a tool a part links sawn_with: a beam saw, its cut unstated, so the cut rule
+    refuses it; its payload's blade names the usual beam-saw blade a design is sawn with instead."""
+    return Node(id="norpano-cutting-service", kind="tool", name="Norpano's cutting service",
+                payload={"maker": SHOP, "saw_kind": "panel saw",
+                         "does": "cuts the panels it sells to the customer's sizes on a beam saw (scie à plat)",
+                         "blade": {"usual": USUAL_BLADE, "per": f"sources/{SERVICES}/panel-cutting"}},
+                links={"per": [f"sources/{SERVICES}/panel-cutting"]})
+
+
 def knowledge() -> list[Node]:
-    """The branches to merge beside furniture-design's and wood-panels's: the source, the materials."""
-    return [Node(id="sources", kind="", children=[catalogue(rows())]),
-            Node(id="materials", kind="", children=shops.materials(PREFIX, SHOP, f"sources/{SOURCE}", rows()))]
+    """The branches to merge beside furniture-design's and wood-panels's: the sources, the materials and the
+    cutting service as a tool."""
+    return [Node(id="sources", kind="", children=[catalogue(rows()), services()]),
+            Node(id="materials", kind="", children=shops.materials(PREFIX, SHOP, f"sources/{SOURCE}", rows())),
+            Node(id="tools", kind="", children=[cutting_service()])]

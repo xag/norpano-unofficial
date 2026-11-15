@@ -62,6 +62,29 @@ def entries() -> list[Node]:
                      "board no rule can check."),
             ],
         ),
+        Node(
+            id="the-cutting-service-is-a-beam-saw-cut-with-the-usual-blade", kind="decision",
+            name="Norpano's cutting service is tools/norpano-cutting-service, a panel saw that states no cut, as its "
+                 "services page (https://www.norpano.fr/services.html) says it cuts on a beam saw (scie à plat) and "
+                 "gives no cut, no blade and no narrowest part. Its payload's blade names saws' "
+                 "tools/usual-panel-sizing-blade, which a part cut at Norpano links sawn_with until the shop states "
+                 "its cut. Norpano's mails to the owner read (2023 quotes and invoice) state no cut either; the "
+                 "quotes' PDF attachments could not be read",
+            links={"rests_on": ["the-range-is-read-from-the-general-catalogue"]},
+            payload={"decided_on": "2026-11-15",
+                     "the_owner": "Je suppose que c'est 3.5 mm c'est un standard non? Regarde mes échanges avec "
+                                  "eux, c'est peut être écrit / As tu intégré ces infos riches dont tu me parles là",
+                     "why": "A shop's figure is the shop's to print; the beam-saw blades two catalogues list give "
+                            "the cut a design can count meanwhile, named as a blade and not as Norpano's.",
+                     "falsified_by": "Norpano stating the cut of its beam saw, or a cut it made measured"},
+            children=[
+                _alt("the-usual-cut-on-the-service", "Give the service the usual blade's cut as its max_kerf",
+                     "The sheet would print 5.2 mm as Norpano's, which Norpano never said."),
+                _alt("three-and-a-half-on-the-service", "Give the service 3.5 mm",
+                     "No source gives it as Norpano's cut, and the beam-saw blades the catalogues list mostly cut "
+                     "4.4 mm."),
+            ],
+        ),
     ]
 
 
