@@ -102,9 +102,26 @@ AUTHORITY = {
 }
 
 
+def _say(id_: str, name: str, text: str, *about: str) -> Node:
+    return Node(id=id_, kind="guidance", name=name, payload={"text": " ".join(text.split())},
+                links={"about": list(about)} if about else {})
+
+
+def guidance() -> Node:
+    """What whoever designs with this package is told before reading its nodes (furniture-design's kind
+    guidance): a reader gives it to its assistant and writes none of its own."""
+    return Node(id="guidance", kind="", children=[
+        _say("norpano-cutting-service", "A part cut at Norpano", """
+            A part the person has cut at Norpano is cut on its beam saw (scie à plat),
+            tools/norpano-cutting-service, which states no cut and is refused by the rule: the part links
+            sawn_with the blade its payload names; once Norpano gives its cut, state it on a tool of the
+            piece's own.""", "tools/norpano-cutting-service"),
+    ])
+
+
 def knowledge() -> list[Node]:
     """The branches to merge beside furniture-design's and wood-panels's: the sources, the materials and the
     cutting service as a tool."""
     return [Node(id="sources", kind="", children=with_authority([catalogue(rows()), services()], AUTHORITY)),
             Node(id="materials", kind="", children=shops.materials(PREFIX, SHOP, f"sources/{SOURCE}", rows())),
-            Node(id="tools", kind="", children=[cutting_service()])]
+            Node(id="tools", kind="", children=[cutting_service()]), guidance()]
